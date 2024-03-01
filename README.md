@@ -38,4 +38,4 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 Credits:
 
-Created by Dias Zhagaparov
+Created by Amira Bekenova
