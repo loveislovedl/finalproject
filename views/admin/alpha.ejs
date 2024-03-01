@@ -1,0 +1,74 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="admin-title">
+    <h2>Graphs and Charts</h2>
+</div>
+
+<div style="width: 80%; margin: auto;">
+    <h3>Flower Sales</h3>
+    <canvas id="salesChart" width="400" height="200"></canvas>
+</div>
+
+
+<div style="margin-top: 20px;">
+    <h3>Get Advice</h3>
+    <form id="adviceForm">
+        <input type="text" id="query" placeholder="Enter your query">
+        <button type="submit">Get Advice</button>
+    </form>
+    <p id="advice"></p>
+</div>
+
+<script>
+    document.getElementById('adviceForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        fetch(`https://api.adviceslip.com/advice`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.slip) {
+                    // Display random advice
+                    document.getElementById('advice').textContent = data.slip.advice;
+                } else {
+                    document.getElementById('advice').textContent = "No advice available at the moment.";
+                }
+            })
+            .catch(error => console.error('Error fetching advice:', error));
+    });
+</script>
+
+
+<script>
+    const months = ['January', 'February', 'March', 'April', 'May', 'June'];
+    const salesData = [90, 130, 110, 150, 140, 120]; // Sales data for each month
+
+    const ctx = document.getElementById('salesChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Sales',
+                data: salesData,
+                borderColor: 'rgba(255, 99, 132, 1)', // Red color for the line
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Sales (in dollars)'
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                }]
+            }
+        }
+    });
+</script>

@@ -1,0 +1,124 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="admin-title">
+  <h2>Best Compositions</h2>
+  <button id="subscribeBtn" class="btn">+ Subscribe</a>
+</div>
+
+<br><br><br>
+
+<script>
+const subscribeBtn = document.getElementById('subscribeBtn');
+
+subscribeBtn.addEventListener('click', function() {
+    alert('Thank you for subscribing!');
+});
+</script>
+
+<div class="carousel">
+  <% data.forEach((car, index) => { %>
+    <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+      <div class="carousel-item-content">
+        <h3><%= car.model %></h3>
+        <p><%= car.description %></p>
+        <a href="/add-post" class="button-add">Add New</a>
+        <a href="/edit-post/<%= car._id %>" class="button-edit">Edit</a>
+            <form action="/delete-post/<%= car._id %>?_method=DELETE" method="POST">
+              <button type="submit" class="button-delete">Delete</button>
+        </form>
+      </div>
+      <img src="<%= car.image %>" alt="<%= car.model %>">
+    </div>
+  <% }) %>
+  <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+  <button class="next" onclick="plusSlides(1)">&#10095;</button>
+</div>
+
+<br><br><br>
+
+<h2>Popularity of our flowers among our consumers</h2>
+<div id="flowerChartContainer">
+  <canvas id="flowerChart" style="width: 100%; height: 400px;"></canvas>
+</div>
+
+<script>
+  // Chart.js data
+  const flowerData = {
+    labels: ['Rose', 'Piony', 'Lily', 'Tulip', 'Ranunculus'],
+    datasets: [{
+      label: 'Percentage',
+      data: [30, 20, 15, 10, 25],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.7)', // Rose
+        'rgba(54, 162, 235, 0.7)', // Piony
+        'rgba(255, 206, 86, 0.7)', // Lily
+        'rgba(75, 192, 192, 0.7)', // Tulip
+        'rgba(153, 102, 255, 0.7)' // Ranunculus
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  // Chart.js options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false
+    },
+    title: {
+      display: true,
+      text: 'Celine Sales by type of flowers in KZ 2023'
+    }
+  };
+
+  // Draw the Chart.js chart
+  const ctx = document.getElementById('flowerChart').getContext('2d');
+  const flowerChart = new Chart(ctx, {
+    type: 'pie',
+    data: flowerData,
+    options: chartOptions
+  });
+</script>
+
+
+<script>
+  let slideIndex = 0;
+let isTransitioning = false;
+showSlides();
+
+function plusSlides(n) {
+  if (!isTransitioning) {
+    showSlides(slideIndex += n);
+  }
+}
+
+function showSlides() {
+  let i;
+  const slides = document.querySelectorAll('.carousel-item');
+  if (slideIndex >= slides.length) { slideIndex = 0; }
+  if (slideIndex < 0) { slideIndex = slides.length - 1; }
+  isTransitioning = true;
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = 'none';
+  }
+  slides[slideIndex].style.display = 'block';
+  setTimeout(() => {
+    isTransitioning = false;
+  }, 1000); 
+}
+
+
+setInterval(() => {
+  if (!isTransitioning) {
+    plusSlides(1);
+  }
+}, 6000);
+</script>
